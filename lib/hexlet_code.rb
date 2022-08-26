@@ -7,7 +7,7 @@ module HexletCode
 
   class Error < StandardError; end
 
-  def self.form_for(obj, options = {})
+  def self.form_for(_obj, options = {})
     form_options = {
       action: options[:url] || '#',
       method: 'post'
