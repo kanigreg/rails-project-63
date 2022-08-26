@@ -6,7 +6,7 @@ module HexletCode
 
     def self.build(tag, attributes = {})
       params = attributes.map { |key, value| "#{key}=\"#{value}\"" }
-      open_tag = "<#{tag} #{params.join('&')}>"
+      open_tag = "<#{tag} #{params.join(' ')}>"
       block = yield if block_given?
       close_tag = "</#{tag}>"
 
