@@ -11,12 +11,12 @@ module HexletCode
 
   class Error < StandardError; end
 
-  def self.form_for(object, options = {}, &block)
+  def self.form_for(object, options = {}, &)
     form_options = {
       action: options[:url] || '#',
       method: 'post'
     }
 
-    FormBuilder.new(object, form_options).render(&block)
+    FormBuilder.new(object, form_options).render(&)
   end
 end
