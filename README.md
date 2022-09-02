@@ -19,7 +19,10 @@ HexletCode.form_for user, url: '#' do |f|
 end
 
 # <form action="#" method="post">
+#   <label for="name">Name</label>
 #   <input type="text" class="user-input" name="name" value="rob">
+#   <label for="job">Job</label>
 #   <textarea cols="50" rows="50" name="job">hexlet</textarea>
+#   <input type="submit" value="Save" name="commit">
 # </form>
 ```
