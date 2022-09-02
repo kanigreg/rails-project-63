@@ -7,10 +7,14 @@ module HexletCode
         type: :text
       }.freeze
 
-      def self.render(options = {})
-        options = DEFAULTS.merge(options)
+      attr_reader :options
 
-        HexletCode::Tag.build('input', options)
+      def initialize(options)
+        @options = options.reverse_merge(DEFAULTS)
+      end
+
+      def render
+        HexletCode::Tag.build('input', @options)
       end
     end
   end

@@ -5,12 +5,12 @@ module HexletCode
     def initialize(associated_object, form_options = {})
       @object = associated_object
       @options = form_options
-      @rendered_components = []
+      @components = []
     end
 
     def render
       yield(self) if block_given?
-      HexletCode::Tag.build('form', @options) { @rendered_components.join }
+      HexletCode::Tag.build('form', @options) { @components.map(&:render).join }
     end
 
     def input(attribute_name, options = {})
@@ -19,10 +19,18 @@ module HexletCode
       options[:name] = attribute_name
       options[:value] = @object.public_send(attribute_name)
 
-      @rendered_components << map_type(input_type).render(options)
+      input = map_type(input_type).new(options)
+      @components << HexletCode::Wrapper.new(input)
     end
 
-    def submit; end
+    def submit(name = 'Save', options = {})
+      options = options.dup
+      options[:value] = name
+      options[:name] = :commit
+      options[:type] = :submit
+      input = HexletCode::Inputs::StringInput.new(options)
+      @components << input
+    end
 
     class UnknownInputTypeException < StandardError
       def initialize(type = nil)

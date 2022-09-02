@@ -17,6 +17,7 @@ class TestHexletCode < Minitest::Test
     html = HexletCode.form_for @user do |f|
       f.input :name
       f.input :job, as: :text
+      f.submit
     end
     expected = load_fixture('default.html')
 
@@ -34,7 +35,6 @@ class TestHexletCode < Minitest::Test
     html = HexletCode.form_for @user, url: '#' do |f|
       f.input :name, class: 'user-input'
       f.input :job
-      f.submit
     end
     expected = load_fixture('addtion_attributes.html')
 
@@ -56,5 +56,14 @@ class TestHexletCode < Minitest::Test
         f.input :age
       end
     end
+  end
+
+  def test_submit_button_text
+    html = HexletCode.form_for @user, url: '/users' do |f|
+      f.submit 'Wow'
+    end
+    expected = '<form action="/users" method="post"><input type="submit" value="Wow" name="commit"></form>'
+
+    assert { html == expected }
   end
 end

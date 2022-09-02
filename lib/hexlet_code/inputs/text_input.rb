@@ -8,11 +8,15 @@ module HexletCode
         rows: 40
       }.freeze
 
-      def self.render(options = {})
-        options = DEFAULTS.merge(options)
+      attr_reader :options
 
-        value = options.delete(:value)
-        HexletCode::Tag.build('textarea', options) { value }
+      def initialize(options)
+        @options = options.reverse_merge(DEFAULTS)
+        @value = @options.delete(:value)
+      end
+
+      def render
+        HexletCode::Tag.build('textarea', @options) { @value }
       end
     end
   end
