@@ -9,9 +9,3 @@ Gemspec/RequiredRubyVersion:
 
 Metrics/MethodLength:
   Enabled: false
-
-Naming/MethodParameterName:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  EnforcedStyle: compact
