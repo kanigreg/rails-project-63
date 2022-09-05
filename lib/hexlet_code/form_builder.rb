@@ -14,12 +14,13 @@ module HexletCode
     end
 
     def input(attribute_name, options = {})
-      options = options.dup
-      input_type = options.delete(:as) || :string
+      input_type = options[:as] || :string
+      options = options.reject { |key| key == :as }
       options[:name] = attribute_name
       options[:value] = @object.public_send(attribute_name)
 
-      input = map_type(input_type).new(options)
+      input_class_name = "#{input_type.to_s.capitalize}Input"
+      input = HexletCode::Inputs.const_get(input_class_name).new(options)
       @components << HexletCode::Wrapper.new(input)
     end
 
@@ -30,25 +31,6 @@ module HexletCode
       options[:type] = :submit
       input = HexletCode::Inputs::StringInput.new(options)
       @components << input
-    end
-
-    class UnknownInputTypeException < StandardError
-      def initialize(type = nil)
-        super("unknown type: #{type}")
-      end
-    end
-
-    private
-
-    def map_type(name)
-      case name.to_sym
-      when :string
-        HexletCode::Inputs::StringInput
-      when :text
-        HexletCode::Inputs::TextInput
-      else
-        raise UnknownInputTypeException, name
-      end
     end
   end
 end

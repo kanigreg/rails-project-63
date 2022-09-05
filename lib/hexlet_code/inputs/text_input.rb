@@ -11,8 +11,9 @@ module HexletCode
       attr_reader :options
 
       def initialize(options)
-        @options = options.reverse_merge(DEFAULTS)
-        @value = @options.delete(:value)
+        @value = options[:value]
+        options = options.reject { |key| key == :value }
+        @options = DEFAULTS.merge(options)
       end
 
       def render

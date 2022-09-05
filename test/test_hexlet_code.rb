@@ -26,7 +26,7 @@ class TestHexletCode < Minitest::Test
 
   def test_form_generation_with_action
     html = HexletCode.form_for @user, url: '/users'
-    expected = '<form action="/users" method="post"></form>'
+    expected = load_fixture('with_action.html')
 
     assert { html == expected }
   end
@@ -62,7 +62,7 @@ class TestHexletCode < Minitest::Test
     html = HexletCode.form_for @user, url: '/users' do |f|
       f.submit 'Wow'
     end
-    expected = '<form action="/users" method="post"><input type="submit" value="Wow" name="commit"></form>'
+    expected = load_fixture('custom_button_name.html')
 
     assert { html == expected }
   end

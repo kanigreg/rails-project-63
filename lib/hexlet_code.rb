@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative 'hexlet_code/version'
-require 'active_support/core_ext/hash/reverse_merge'
 
 module HexletCode
   autoload :FormBuilder, 'hexlet_code/form_builder.rb'

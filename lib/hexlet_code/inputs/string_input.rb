@@ -10,7 +10,7 @@ module HexletCode
       attr_reader :options
 
       def initialize(options)
-        @options = options.reverse_merge(DEFAULTS)
+        @options = DEFAULTS.merge(options)
       end
 
       def render
