@@ -16,6 +16,6 @@ module HexletCode
       method: 'post'
     }
 
-    FormBuilder.new(object, form_options).render(&)
+    FormBuilder.new(object, form_options, &).render
   end
 end
