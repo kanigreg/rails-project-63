@@ -12,7 +12,7 @@ module HexletCode
 
       def initialize(options)
         @value = options[:value]
-        options = options.reject { |key| key == :value }
+        options = options.except(:value)
         @options = DEFAULTS.merge(options)
       end
 

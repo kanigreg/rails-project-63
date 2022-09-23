@@ -2,26 +2,27 @@
 
 module HexletCode
   class FormBuilder
-    def initialize(associated_object, form_options = {})
+    def initialize(associated_object)
       @object = associated_object
-      @form_options = form_options
-      @component_options = []
-
-      yield(self) if block_given?
     end
 
-    def render
-      tags = @component_options.map { |options| create_tag(options) }
+    def build(form_options = {})
+      @form = HexletCode::Form.new(form_options)
 
-      HexletCode::Tag.build('form', @form_options) { tags.map(&:render).join }
+      yield(self) if block_given?
+
+      @form
     end
 
     def input(attribute_name, options = {})
-      options = options.dup
+      label(for: attribute_name)
+
+      options = { as: :string }.merge(options)
+      options[:as] = "Inputs::#{options[:as].capitalize}Input"
       options[:name] = attribute_name
       options[:value] = @object.public_send(attribute_name)
 
-      @component_options << options
+      @form.add_component(options)
     end
 
     def submit(name = 'Save', options = {})
@@ -29,22 +30,16 @@ module HexletCode
       options[:value] = name
       options[:name] = :commit
       options[:type] = :submit
+      options[:as] = 'Fields::Button'
 
-      @component_options << options
+      @form.add_component(options)
     end
 
-    def create_tag(options)
-      input_type = options[:as] || :string
-      attributes = options.reject { |key| key == :as }
+    def label(options = {})
+      options = options.dup
+      options[:as] = 'Fields::Label'
 
-      input_class_name = "#{input_type.to_s.capitalize}Input"
-      input = HexletCode::Inputs.const_get(input_class_name).new(attributes)
-
-      if options[:type] == :submit
-        input
-      else
-        HexletCode::Wrapper.new(input)
-      end
+      @form.add_component(options)
     end
   end
 end
